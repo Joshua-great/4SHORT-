@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = __importDefault(require("../models/User"));
+const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -29,7 +29,7 @@ const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         if (token) {
             const decodedToken = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
             const userId = decodedToken.sub;
-            const user = yield User_1.default.findById(userId);
+            const user = yield user_1.default.findById(userId);
             if (!user) {
                 return res.status(401).json("authorization not found");
             }

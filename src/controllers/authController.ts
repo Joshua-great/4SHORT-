@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 import { Request, Response } from 'express'; 
-import User from '../models/User'; 
+import User from '../models/user'; 
 import logger from '../utils/logger';
 
 const createUser = async (userInfo: { email: any; first_name: any; last_name: any; password: any; }) => {
@@ -44,9 +44,9 @@ const login = async (req: Request, res: Response) => {
   try {
     logger.info("[Authenticate user] => login process started");
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email });
     if (!user) {
-      res.render('login', { message: "User not found" });
+      res.render("login", { message: "User not found" });
       return {
         code: 404,
         message: "User not found",
@@ -55,7 +55,7 @@ const login = async (req: Request, res: Response) => {
     }
     const validPassword = await user.isValidPassword(password);
     if (!validPassword) {
-      res.render('login', { message: "Email or password is incorrect" });
+      res.render("login", { message: "Email or password is incorrect" });
       return {
         code: 422,
         message: "Email or password is incorrect",
@@ -63,7 +63,7 @@ const login = async (req: Request, res: Response) => {
       };
     }
     const token = jwt.sign(
-      { _id: user._id, email: user.email },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
@@ -81,7 +81,7 @@ const login = async (req: Request, res: Response) => {
     };
   } catch (error) {
     logger.error("[Authenticate user] => Error in login process: " + error);
-    res.status(500).render('login', { message: "Internal Server Error" }); // Send status code 500
+    res.status(500).render("login", { message: "Internal Server Error" }); // Send status code 500
     return {
       code: 500,
       message: "Internal Server Error",

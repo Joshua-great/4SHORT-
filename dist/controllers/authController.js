@@ -16,19 +16,19 @@ exports.createUser = exports.login = void 0;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const User_1 = __importDefault(require("../models/User"));
+const user_1 = __importDefault(require("../models/user"));
 const logger_1 = __importDefault(require("../utils/logger"));
 const createUser = (userInfo) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         logger_1.default.info("[CreateUser] => Signup process started");
-        const existingUser = yield User_1.default.findOne({ email: userInfo.email });
+        const existingUser = yield user_1.default.findOne({ email: userInfo.email });
         if (existingUser) {
             return {
                 message: "User already exists",
                 code: 409,
             };
         }
-        const newUser = yield User_1.default.create({
+        const newUser = yield user_1.default.create({
             email: userInfo.email,
             first_name: userInfo.first_name,
             last_name: userInfo.last_name,
@@ -56,9 +56,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         logger_1.default.info("[Authenticate user] => login process started");
         const { email, password } = req.body;
-        const user = yield User_1.default.findOne({ email });
+        const user = yield user_1.default.findOne({ email: email });
         if (!user) {
-            res.render('login', { message: "User not found" });
+            res.render("login", { message: "User not found" });
             return {
                 code: 404,
                 message: "User not found",
@@ -67,14 +67,14 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const validPassword = yield user.isValidPassword(password);
         if (!validPassword) {
-            res.render('login', { message: "Email or password is incorrect" });
+            res.render("login", { message: "Email or password is incorrect" });
             return {
                 code: 422,
                 message: "Email or password is incorrect",
                 redirectUrl: null, // No redirection, invalid password
             };
         }
-        const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "2h" });
+        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "2h" });
         logger_1.default.info("[Authenticate user] => Login process successful");
         res.cookie("jwt", token, {
             maxAge: 60 * 60 * 1000,
@@ -90,7 +90,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         logger_1.default.error("[Authenticate user] => Error in login process: " + error);
-        res.status(500).render('login', { message: "Internal Server Error" }); // Send status code 500
+        res.status(500).render("login", { message: "Internal Server Error" }); // Send status code 500
         return {
             code: 500,
             message: "Internal Server Error",

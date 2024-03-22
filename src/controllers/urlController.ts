@@ -78,7 +78,7 @@ class UrlController {
     }
   }
 
-  async getAnalytics(req: Request, res: Response): Promise<void> {
+    async getAnalytics(req: Request, res: Response): Promise<void> {
     try {
       const { shortUrl } = req.params;
 
@@ -91,12 +91,13 @@ class UrlController {
       }
 
       // Return the analytics data
-      res.status(200).json({ clicks: url.clicks });
+      res.status(200).json({ clicks: url!.clicks });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
+
 
   async downloadQRCode(req: Request, res: Response): Promise<void> {
     try {
