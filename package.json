@@ -5,17 +5,10 @@
   "main": "app.js",
   "engines": {
     "node": ">=18.17.0"
-<<<<<<< HEAD
   },
   "scripts": {
     "start": "node dist/app.js",
     "build": "tsc",
-=======
-    },
-  "scripts": {
-    "start": "node dist/app.js",
-    "build":"tsc",
->>>>>>> b354ee9f7bcfac40a481d552aa81ee4a89b099d1
     "test": "jest",
     "generate-swagger": "swagger-jsdoc -d src/**/*.ts -o swagger.json"
   },

@@ -21,11 +21,11 @@ const limiter = rateLimit({
 
 connectDB();
 
-// Body parser middleware
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Handlebars middleware
+
 const viewsPath = path.join(__dirname, "../src/views");
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
@@ -33,7 +33,7 @@ const publicPath = path.join(__dirname,"../src/public");
 app.use(express.static(publicPath));
 console.log(`Public path: ${publicPath}`);
 
-// Routes
+
 app.use("/", authRoutes); 
 app.use("/", urlRoutes); 
 

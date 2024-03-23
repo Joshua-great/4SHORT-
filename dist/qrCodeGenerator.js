@@ -16,7 +16,6 @@ const qrcode_1 = __importDefault(require("qrcode"));
 function generateQRCode(text) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // Generate QR code as a buffer
             const qrCodeBuffer = yield qrcode_1.default.toBuffer(text);
             return qrCodeBuffer;
         }

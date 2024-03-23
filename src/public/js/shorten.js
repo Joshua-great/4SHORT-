@@ -34,9 +34,9 @@ function alertShortUrl(shortUrl) {
           data.originalUrl = originalUrl;
           data.clicks = 0;
           const tableData = getTableData();
-          tableData.push(data); // Add new data to tableData array
-          saveTableData(tableData); // Save updated data to local storage
-          renderTable(); // Render updated table
+          tableData.push(data); 
+          saveTableData(tableData); 
+          renderTable(); 
         } else {
           throw new Error('Response status not ok');
         }
@@ -46,7 +46,7 @@ function alertShortUrl(shortUrl) {
       }
     });
   
-    // Function to render table rows
+    
     const renderTable = () => {
       console.log("Rendering table...");
       const tableBody = document.querySelector('#historyTable tbody');
@@ -59,7 +59,7 @@ function alertShortUrl(shortUrl) {
       let locationClicks = {};
       tableData.forEach((row) => {
         totalClicks += row.clicks;
-        // Assume location data is stored in 'location' property of each row
+      
         if (row.location) {
           if (!locationClicks[row.location]) {
             locationClicks[row.location] = 0;
@@ -77,12 +77,12 @@ function alertShortUrl(shortUrl) {
         `;
         tableBody.appendChild(tr);
   
-        // Generate QR code for each row
+        
         const qrCodeCanvas = tr.querySelector('.qr-code');
         generateQRCode(row.shortUrl, qrCodeCanvas);
       });
   
-      // Update total clicks in analytics section
+  
       console.log("Total Clicks:", totalClicks);
       document.getElementById('totalClicks').textContent = totalClicks;
   
@@ -107,22 +107,21 @@ function alertShortUrl(shortUrl) {
         });
       });
   
-      // Event listener for delete button
+    
       document.querySelector('#historyTable').addEventListener('click', (event) => {
         if (event.target.classList.contains('delete-btn')) {
           const row = event.target.closest('tr');
           const tableData = getTableData();
           const index = Array.from(row.parentNode.children).indexOf(row); // Get row index
-          tableData.splice(index, 1); // Remove row from data array
-          saveTableData(tableData); // Save updated data to local storage
-          renderTable(); // Render updated table
+          tableData.splice(index, 1); 
+          saveTableData(tableData); 
+          renderTable(); 
         }
       });
   
-      // Initial table rendering on page load
       console.log("Table rendering complete.");
     };
   
-    // Initial table rendering on page load
+   
     renderTable();
   });

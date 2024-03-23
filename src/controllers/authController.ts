@@ -59,7 +59,7 @@ const login = async (req: Request, res: Response) => {
       return {
         code: 422,
         message: "Email or password is incorrect",
-        redirectUrl: null, // No redirection, invalid password
+        redirectUrl: null, 
       };
     }
     const token = jwt.sign(
@@ -73,7 +73,7 @@ const login = async (req: Request, res: Response) => {
       secure: true,
       httpOnly: true,
     });
-    // Return the URL string to redirect to after successful login
+    
     return {
       code: 200,
       message: "Login successful",
@@ -85,7 +85,7 @@ const login = async (req: Request, res: Response) => {
     return {
       code: 500,
       message: "Internal Server Error",
-      redirectUrl: null, // No redirection due to error
+      redirectUrl: null, 
     };
   }
 };

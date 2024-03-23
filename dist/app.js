@@ -18,17 +18,14 @@ const limiter = (0, express_rate_limit_1.default)({
     max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || "100", 10), // default to 100 requests
 });
 (0, database_1.default)();
-// Body parser middleware
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
-// Handlebars middleware
 const viewsPath = path_1.default.join(__dirname, "../src/views");
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
 const publicPath = path_1.default.join(__dirname, "../src/public");
 app.use(express_1.default.static(publicPath));
 console.log(`Public path: ${publicPath}`);
-// Routes
 app.use("/", authRoutes_1.default);
 app.use("/", urlRoutes_1.default);
 app.use(express_1.default.Router());

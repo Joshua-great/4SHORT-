@@ -41,10 +41,8 @@ const userSchema = new mongoose_1.Schema({
     first_name: String,
     last_name: String,
     email: String,
-    password: String, // Store hashed password
-    // Additional user attributes
+    password: String,
 });
-// Hash password before saving
 userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
@@ -59,13 +57,11 @@ userSchema.pre("save", function (next) {
         }
     });
 });
-// Add isValidPassword method to the schema
 userSchema.methods.isValidPassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
         return bcrypt_1.default.compare(password, user.password);
     });
 };
-// Create the User model
 const User = mongoose_1.default.models.Users || mongoose_1.default.model('Users', userSchema);
 exports.default = User;

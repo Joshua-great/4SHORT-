@@ -18,13 +18,8 @@ router.get('/shorten', auth_1.default, (req, res) => {
     res.render('shorten');
 });
 router.post('/shorten-url', urlController_1.default.shortenUrl);
-// router.post('/delete-url', urlController.deleteUrl);
-// Route for shortening URLs
-// router.post('/layout', urlController.shortenUrl);
-// Route for customization
+router.post('/delete-url', urlController_1.default.deleteUrl);
 router.post('/customize', urlController_1.default.customizeUrl);
-// Route for generating QR code
 router.get('/generate-qr/:urlId', urlController_1.default.generateQRCode);
-// Route for analytics
 router.get('/analytics', urlController_1.default.getAnalytics);
 exports.default = router;
