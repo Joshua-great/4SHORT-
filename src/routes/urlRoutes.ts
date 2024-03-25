@@ -4,14 +4,7 @@ import isAuthenticated from '../middleware/auth';
 
 const router = express.Router();
 
-// router.get('/layout', (req, res) => {
-//   res.render('layout');
-// });
 
-// router.get('/layout', (req, res) => {
-//   const { shortUrl } = req.query;
-//   res.render('layout', { shortUrl });
-// });
 router.get('/shorten', isAuthenticated, (req, res) => {
   res.render('shorten');
 });

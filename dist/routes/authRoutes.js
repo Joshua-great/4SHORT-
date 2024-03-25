@@ -30,22 +30,19 @@ userRouter.get('/layout', (req, res) => {
     res.render('layout', { shortUrl });
 });
 // Handle login request
-userRouter.post('/login', [
-    body('email').isEmail().normalizeEmail(),
-    body('password').notEmpty().trim(),
+userRouter.post("/login", [
+    body("email").isEmail().normalizeEmail(),
+    body("password").notEmpty().trim(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield authController.login(req, res);
-        if (response && response.code === 200) {
-            res.redirect('/shorten');
-        }
-        else {
-            res.render('login', { message: response.message });
+        if (response && response.code !== 200) {
+            res.render("login", { message: response.message });
         }
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));
 userRouter.post("/signup", [
@@ -62,7 +59,7 @@ userRouter.post("/signup", [
             password: req.body.password
         });
         if (response.code === 200) {
-            res.redirect('/');
+            res.redirect('/login');
         }
         else {
             res.render('signup', { message: response.message });

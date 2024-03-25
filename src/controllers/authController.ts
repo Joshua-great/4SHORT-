@@ -46,7 +46,6 @@ const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
-      res.render("login", { message: "User not found" });
       return {
         code: 404,
         message: "User not found",
@@ -55,7 +54,6 @@ const login = async (req: Request, res: Response) => {
     }
     const validPassword = await user.isValidPassword(password);
     if (!validPassword) {
-      res.render("login", { message: "Email or password is incorrect" });
       return {
         code: 422,
         message: "Email or password is incorrect",
@@ -81,7 +79,6 @@ const login = async (req: Request, res: Response) => {
     };
   } catch (error) {
     logger.error("[Authenticate user] => Error in login process: " + error);
-    res.status(500).render("login", { message: "Internal Server Error" }); // Send status code 500
     return {
       code: 500,
       message: "Internal Server Error",
@@ -89,5 +86,6 @@ const login = async (req: Request, res: Response) => {
     };
   }
 };
+
 
 export { login, createUser };

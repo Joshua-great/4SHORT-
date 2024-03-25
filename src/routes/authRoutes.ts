@@ -22,22 +22,21 @@ userRouter.get('/layout', (req: { query: { shortUrl: any; }; }, res: { render: (
   res.render('layout', { shortUrl });
 });
 // Handle login request
-userRouter.post('/login',
+userRouter.post(
+  "/login",
   [
-    body('email').isEmail().normalizeEmail(),
-    body('password').notEmpty().trim(),
+    body("email").isEmail().normalizeEmail(),
+    body("password").notEmpty().trim(),
   ],
-  async (req: any, res: { redirect: (arg0: string) => void; render: (arg0: string, arg1: { message: any; }) => void; status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; }) => {
+  async (req: any, res: any) => {
     try {
       const response = await authController.login(req, res);
-      if (response && response.code === 200) {
-        res.redirect('/shorten');
-      } else {
-        res.render('login', { message: response.message });
+      if (response && response.code !== 200) {
+        res.render("login", { message: response.message });
       }
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 );
@@ -59,7 +58,7 @@ userRouter.post("/signup",
       });
 
       if (response.code === 200) {
-        res.redirect('/');
+        res.redirect('/login');
       } else {
         res.render('signup', { message: response.message });
       }

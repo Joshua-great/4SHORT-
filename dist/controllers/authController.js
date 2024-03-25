@@ -58,7 +58,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { email, password } = req.body;
         const user = yield user_1.default.findOne({ email: email });
         if (!user) {
-            res.render("login", { message: "User not found" });
             return {
                 code: 404,
                 message: "User not found",
@@ -67,7 +66,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const validPassword = yield user.isValidPassword(password);
         if (!validPassword) {
-            res.render("login", { message: "Email or password is incorrect" });
             return {
                 code: 422,
                 message: "Email or password is incorrect",
@@ -89,7 +87,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         logger_1.default.error("[Authenticate user] => Error in login process: " + error);
-        res.status(500).render("login", { message: "Internal Server Error" }); // Send status code 500
         return {
             code: 500,
             message: "Internal Server Error",
